@@ -55,7 +55,7 @@ public class FishMountItem extends HangingEntityItem {
     }
 
     @Override
-    protected boolean canPlace(@Nonnull PlayerEntity entity, Direction direction, @Nonnull ItemStack stack, @Nonnull BlockPos pos) {
+    protected boolean canPlace(@Nonnull PlayerEntity entity, @Nonnull Direction direction, @Nonnull ItemStack stack, @Nonnull BlockPos pos) {
         return !World.isOutsideBuildHeight(pos) && entity.canPlayerEdit(pos, direction, stack);
     }
 }

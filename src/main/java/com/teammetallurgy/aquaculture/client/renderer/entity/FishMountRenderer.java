@@ -19,6 +19,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.passive.fish.PufferfishEntity;
+import net.minecraft.entity.passive.fish.TropicalFishEntity;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
@@ -85,6 +86,13 @@ public class FishMountRenderer extends EntityRenderer<FishMountEntity> {
             matrixStack.translate(x, y, depth);
             matrixStack.rotate(Vector3f.XP.rotationDegrees(-90.0F));
             matrixStack.rotate(Vector3f.YP.rotationDegrees(-90.0F));
+            if (fish instanceof TropicalFishEntity) {
+                int a = 0;
+                int b = 0;
+                int c = 1;
+                int d = 0;
+                ((TropicalFishEntity) fish).setVariant(a | b << 8 | c << 16 | d << 24);
+            }
             this.mc.getRenderManager().renderEntityStatic(fish, 0.0F, 0.0F, 0.0F, 0.0F, 0, matrixStack, buffer, i);
         }
     }

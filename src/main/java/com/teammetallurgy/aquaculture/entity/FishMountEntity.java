@@ -58,7 +58,7 @@ public class FishMountEntity extends HangingEntity implements IEntityAdditionalS
     }
 
     @Override
-    protected float getEyeHeight(Pose pose, EntitySize size) {
+    protected float getEyeHeight(@Nonnull Pose pose, @Nonnull EntitySize size) {
         return 0.0F;
     }
 
@@ -68,7 +68,7 @@ public class FishMountEntity extends HangingEntity implements IEntityAdditionalS
     }
 
     @Override
-    protected void updateFacingWithBoundingBox(Direction direction) {
+    protected void updateFacingWithBoundingBox(@Nonnull Direction direction) {
         Validate.notNull(direction);
         this.facingDirection = direction;
         if (direction.getAxis().isHorizontal()) {
@@ -254,7 +254,7 @@ public class FishMountEntity extends HangingEntity implements IEntityAdditionalS
         if (key.equals(ITEM)) {
             ItemStack displayStack = this.getDisplayedItem();
             if (displayStack != null && !displayStack.isEmpty()) {
-                EntityType entityType = ForgeRegistries.ENTITIES.getValue(displayStack.getItem().getRegistryName());
+                EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(displayStack.getItem().getRegistryName());
                 if (entityType != null && entityType != EntityType.PIG) {
                     this.entity = entityType.create(this.world);
                 }
@@ -265,7 +265,7 @@ public class FishMountEntity extends HangingEntity implements IEntityAdditionalS
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
         super.writeAdditional(compound);
         if (!this.getDisplayedItem().isEmpty()) {
             compound.put("Item", this.getDisplayedItem().write(new CompoundNBT()));
@@ -275,7 +275,7 @@ public class FishMountEntity extends HangingEntity implements IEntityAdditionalS
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
+    public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
         CompoundNBT nbt = compound.getCompound("Item");
         if (nbt != null && !nbt.isEmpty()) {
@@ -298,7 +298,7 @@ public class FishMountEntity extends HangingEntity implements IEntityAdditionalS
     }
 
     @Override
-    public boolean processInitialInteract(PlayerEntity player, Hand hand) {
+    public boolean processInitialInteract(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
         if (!this.world.isRemote) {
             if (this.getDisplayedItem().isEmpty()) {
