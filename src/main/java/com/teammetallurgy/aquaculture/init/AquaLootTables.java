@@ -10,6 +10,9 @@ import net.minecraft.world.storage.loot.TableLootEntry;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Aquaculture.MOD_ID)
 public class AquaLootTables {
@@ -55,9 +58,15 @@ public class AquaLootTables {
     }
 
     private static void addEntry(LootPool pool, LootEntry entry) {
-        /*if (pool.lootEntries.stream().anyMatch(e -> e == entry)) {
-            throw new RuntimeException("Attempted to add a duplicate entry to pool: " + entry);
+        try {
+            List<LootEntry> lootEntries = (List<LootEntry>) ObfuscationReflectionHelper.findField(LootPool.class, "field_186453_a").get(pool);
+            if (lootEntries.stream().anyMatch(e -> e == entry)) {
+                throw new RuntimeException("Attempted to add a duplicate entry to pool: " + entry);
+            }
+            lootEntries.add(entry);
+        } catch (IllegalAccessException e) {
+            Aquaculture.LOG.error("Error occurred when attempting to add a new entry, to the fishing loot table");
+            e.printStackTrace();
         }
-        pool.lootEntries.add(entry);*/
     }
 }
