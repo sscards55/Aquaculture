@@ -33,7 +33,7 @@ public class ItemFilletKnife extends SwordItem {
     private final float attackDamage;
 
     public ItemFilletKnife(IItemTier material) {
-        super(material, 0, 0.0F, new Item.Properties().group(Aquaculture.GROUP).defaultMaxDamage((int) (material.getMaxUses() * 0.75F))); //Setting values to 0, since overriding vanilla behaviour anyways
+        super(material, 0, 0.0F, new Item.Properties().group(Aquaculture.GROUP).defaultMaxDamage(material == AquacultureAPI.MATS.NEPTUNIUM ? -1 : (int) (material.getMaxUses() * 0.75F))); //Setting values to 0, since overriding vanilla behaviour anyways
         this.attackDamage = material.getAttackDamage() / 2;
     }
 
@@ -60,16 +60,6 @@ public class ItemFilletKnife extends SwordItem {
             map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.2F, AttributeModifier.Operation.ADDITION));
         }
         return map;
-    }
-
-    @Override
-    public boolean hitEntity(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
-        return this.getTier() == AquacultureAPI.MATS.NEPTUNIUM || super.hitEntity(stack, target, attacker);
-    }
-
-    @Override
-    public boolean onBlockDestroyed(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
-        return getTier() == AquacultureAPI.MATS.NEPTUNIUM || super.onBlockDestroyed(stack, world, state, pos, entityLiving);
     }
 
     @Override
